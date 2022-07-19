@@ -10,9 +10,14 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.4",
+    "axios": "^0.27.2",
+    "axios-case-converter": "^0.9.0",
     "next": "12.2.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.33.1",
+    "react-image-crop": "^10.0.4",
+    "react-image-file-resizer": "^0.4.8"
   },
   "devDependencies": {
     "@types/node": "18.0.6",
