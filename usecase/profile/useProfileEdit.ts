@@ -10,6 +10,7 @@ export const useProfileEdit = () => {
       visitableArea: data.visitableArea,
       strongAreaCodes: data.strongAreaCodes,
     };
+    // TODO: ちゃんとした設計にする
     const response = await baseHttpClient.put<ProfileResponse>(
       `/api/profile`,
       request

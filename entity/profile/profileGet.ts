@@ -1,3 +1,4 @@
+// TODO: ちゃんとした設計にする
 export interface StrongArea {
   code: string;
   name: string;

@@ -1,3 +1,4 @@
+// TODO: ちゃんとした設計にする
 export interface ProfileRequest {
   introduction: string;
   counsellingTime: string;
