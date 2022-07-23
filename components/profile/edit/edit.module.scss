@@ -3,18 +3,6 @@
 .container {
   &__label {
     margin-bottom: 20px;
-    color: variables.$corporate-color;
-
-    &:before {
-      background-color: variables.$corporate-color;
-      border-radius: 5px;
-      content: '';
-      display: inline-block;
-      height: 24px;
-      margin-right: 10px;
-      vertical-align: middle;
-      width: 6px;
-    }
   }
 
   &__input_box {
