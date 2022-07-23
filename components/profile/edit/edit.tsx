@@ -9,14 +9,11 @@ import {
   useDisclosure,
   VStack,
   Img,
-  useToast,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Resizer from 'react-image-file-resizer';
 import { useProfileImageNew, useProfileImageDelete } from 'usecase/profile';
-import { ERROR_MESSAGE, MESSAGE } from 'components/shared/messages';
-import { toastOptions } from 'components/shared/toastOptions';
 import { CropModal } from '../modal/cropModal';
 import { ProfileEditFormInput } from './types/form';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -44,7 +41,6 @@ export const ProfileEdit = () => {
   const { profileImageDeleteHandler } = useProfileImageDelete();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
 
   const {
     handleSubmit,
@@ -114,13 +110,8 @@ export const ProfileEdit = () => {
       promiseArray.push(imageHandler(formData));
     }
 
-    await Promise.all(promiseArray)
-      .then(() => {
-        toast({ ...toastOptions, description: MESSAGE.SAVE });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    await Promise.all(promiseArray);
+    // 処理
   };
 
   //****************************
@@ -222,7 +213,7 @@ export const ProfileEdit = () => {
                   </VStack>
                   {errors?.imagePath && (
                     <Text className={styles.container__error}>
-                      {ERROR_MESSAGE.OVER_IMAGE_SIZE}
+                      5MB以下にして下さい。
                     </Text>
                   )}
                 </>
