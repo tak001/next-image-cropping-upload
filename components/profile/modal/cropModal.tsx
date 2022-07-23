@@ -30,7 +30,7 @@ type Props = {
 
 /** トリミング時の設定情報 */
 const TRIMMING_CONF = {
-  /** トリミング時のアスペクト比は「1対1」 */
+  /** トリミング時の画像を選択できるアスペクト比は「1対1」 */
   ASPECT: 1 / 1,
   /** トリミング時のスケールは等倍 */
   SCALE: 1,
@@ -38,6 +38,12 @@ const TRIMMING_CONF = {
   ROTATE: 0,
 };
 
+/**
+ *
+ * @see https://github.com/DominicTobias/react-image-crop#react-image-crop
+ * @see https://codesandbox.io/s/react-image-crop-demo-with-react-hooks-y831o
+ *
+ */
 export const CropModal: React.FC<Props> = ({
   isOpen,
   onCrop,
@@ -46,30 +52,39 @@ export const CropModal: React.FC<Props> = ({
   selectedImageType,
 }) => {
   const [crop, setCrop] = useState<Crop | undefined>();
+  // 範囲選択した画像
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | undefined>();
+  // 範囲選択しない状態の画像(edit.tsxで選択された画像)のref、getTrimmedCanvas で計算するために必要
   const imgRef = useRef<HTMLImageElement>(null);
+  // 範囲選択をした画像のref、getTrimmedCanvas で計算するために必要
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
+  //***********************************
+  /** 範囲選択後に「確定」ボタンを押した時 */
+  //***********************************
   const handleOk = () => {
     const canvas = getTrimmedCanvas();
     if (!canvas) {
       return;
     }
 
+    // 選択時の MIME タイプが何もなかった場合、'image/jpeg' を指定
     const imageType = selectedImageType ? selectedImageType : 'image/jpeg';
 
+    // キャンパスに描画した画像（トリミング後の画像）を、Blobに変換する
     canvas.toBlob(
       (blob) => {
         if (!blob) {
           return;
         }
 
+        // edit.tsx の handleCrop を実行
         onCrop(blob);
         setCompletedCrop(undefined);
         onClose();
       },
       imageType,
-      1
+      1,
     );
   };
 
@@ -120,7 +135,7 @@ export const CropModal: React.FC<Props> = ({
       0,
       0,
       image.naturalWidth,
-      image.naturalHeight
+      image.naturalHeight,
     );
 
     ctx.restore();
@@ -128,6 +143,9 @@ export const CropModal: React.FC<Props> = ({
     return canvas;
   };
 
+  //*******************************************
+  /** トリミングをキャンセルした(モーダルを閉じた)時 */
+  //*******************************************
   const handleCancel = () => {
     onCrop(undefined);
     setCompletedCrop(undefined);
@@ -137,7 +155,7 @@ export const CropModal: React.FC<Props> = ({
   const centerAspectCrop = (
     mediaWidth: number,
     mediaHeight: number,
-    aspect: number
+    aspect: number,
   ) => {
     return centerCrop(
       makeAspectCrop(
@@ -148,10 +166,10 @@ export const CropModal: React.FC<Props> = ({
         },
         aspect,
         mediaWidth,
-        mediaHeight
+        mediaHeight,
       ),
       mediaWidth,
-      mediaHeight
+      mediaHeight,
     );
   };
 
@@ -177,14 +195,18 @@ export const CropModal: React.FC<Props> = ({
             onComplete={(c) => setCompletedCrop(c)}
             aspect={TRIMMING_CONF.ASPECT}
           >
+            {/* ユーザーから見えているプレビュー画像 */}
             <Img
               className={styles.modal__image}
+              // getTrimmedCanvas で計算するために必要
               ref={imgRef}
+              // edit.tsx で選択された画像を表示
               src={selectedImage}
               alt="image"
               onLoad={onImageLoad}
             />
           </ReactCrop>
+          {/* ユーザーからは見えないが、内部的に範囲選択された画像を保持、getTrimmedCanvas で計算するために必要 */}
           <div className={styles.modal__preview}>
             {completedCrop && <canvas ref={previewCanvasRef} />}
           </div>
@@ -195,6 +217,7 @@ export const CropModal: React.FC<Props> = ({
             <Button
               width={'120px'}
               onClick={handleOk}
+              // 範囲選択していないと、確定ボタンが押せない
               disabled={!completedCrop}
             >
               確定
