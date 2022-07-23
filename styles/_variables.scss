@@ -1,0 +1,48 @@
+/** color palette */
+$white: #ffffff;
+$black: #000000;
+$black2: #222222;
+$gray1: #f9f9f9;
+$gray2: #f5f5f5;
+$gray3: #eeeeee;
+$gray4: #dddddd;
+$gray5: #cccccc;
+$gray6: #777777;
+$gray7: #707070;
+$gray8: #333333;
+
+$corporate-color: #38a7bb;
+$corporate-color-lt: #e7f4f7;
+$attention-color: #c70000;
+
+$hover-bg: #e7f4f7;
+$hover-bg-green: #38b2b5;
+$hover-text: #38a7bb;
+
+$div-line-color: $gray5;
+$btn-border-color: $corporate-color;
+$btn-bg-color: $corporate-color-lt;
+$btn-border-color-gray: $gray7;
+$btn-bg-color-gray: $gray2;
+$btn-bg-color-green: $corporate-color;
+$btn-border-color-white: $gray5;
+$btn-bg-color-white: $white;
+
+$font-color-green: $white;
+
+$base-bg: $gray1;
+$header-bg: $white;
+$contents-bg: $white;
+$contents-outline: $gray3;
+$contents-text: $gray8;
+
+$footer-bg: $gray6;
+$footer-text: $gray4;
+
+/** font */
+$base-font: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+$noto-font: 'Noto Sans JP', $base-font;
+
+$font-size-l: 1.25rem;
+$font-size-m: 1rem;
+$font-size-s: 0.85rem;

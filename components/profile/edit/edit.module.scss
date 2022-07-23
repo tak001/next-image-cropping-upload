@@ -1,0 +1,55 @@
+@use 'styles/variables';
+
+.container {
+  &__label {
+    margin-bottom: 20px;
+    color: variables.$corporate-color;
+
+    &:before {
+      background-color: variables.$corporate-color;
+      border-radius: 5px;
+      content: '';
+      display: inline-block;
+      height: 24px;
+      margin-right: 10px;
+      vertical-align: middle;
+      width: 6px;
+    }
+  }
+
+  &__input_box {
+    margin-bottom: 48px;
+  }
+
+  &__input_file {
+    display: none;
+  }
+
+  &__file_button {
+    width: 108px;
+    height: 108px;
+    background-image: url('/images/profile_no_image.png');
+    cursor: pointer;
+  }
+
+  &__file_preview {
+    width: 108px;
+    height: 108px;
+    object-fit: cover;
+  }
+
+  &__checkbox {
+    flex-wrap: wrap;
+
+    &_item {
+      font-size: 0.9rem;
+      margin-right: 20px;
+      min-width: 150px;
+    }
+  }
+
+  &__error {
+    color: #e53e3e;
+    font-size: 0.9rem;
+  }
+}
