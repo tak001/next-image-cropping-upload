@@ -14,12 +14,7 @@ import {
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Resizer from 'react-image-file-resizer';
-import {
-  // useProfileDetail,
-  useProfileEdit,
-  useProfileImageNew,
-  useProfileImageDelete,
-} from 'usecase/profile';
+import { useProfileImageNew, useProfileImageDelete } from 'usecase/profile';
 import { ERROR_MESSAGE, MESSAGE } from 'components/shared/messages';
 import { toastOptions } from 'components/shared/toastOptions';
 import { CropModal } from '../modal/cropModal';
@@ -45,7 +40,6 @@ export const ProfileEdit = () => {
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
   // 本来は、fetchData に DB に保存されて表示用の imagePath があるので、それをファーストビューで表示させる
   // const { profile } = useProfileDetail();
-  const { profileEditHandler } = useProfileEdit();
   const { profileImageNewHandler } = useProfileImageNew();
   const { profileImageDeleteHandler } = useProfileImageDelete();
 
@@ -95,8 +89,8 @@ export const ProfileEdit = () => {
   /** 保存ボタンをクリックしたとき */
   //****************************
   const onSubmit = async (data: ProfileEditFormInput) => {
-    // 「画像のAPI」 と「画像以外のAPI」 が別れており、画像以外の PUT(profileEditHandler) は、onSubmit 時に必ず走らせる
-    const promiseArray = [profileEditHandler(data)];
+    // 他APIがあれば
+    const promiseArray = [];
 
     // const changedImage = previewImagePath !== profile?.imagePath;
     const changedImage =
@@ -200,12 +194,12 @@ export const ProfileEdit = () => {
   };
 
   return (
-    <Container className={styles.container} maxW={'750px'}>
+    <Container className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <FormControl>
           <Box className={styles.container__input_box}>
             <FormLabel fontSize={'1.1rem'} className={styles.container__label}>
-              写真
+              画像
             </FormLabel>
             <VStack alignItems={'flex-start'}>
               {previewImagePath ? (
@@ -233,6 +227,7 @@ export const ProfileEdit = () => {
                   )}
                 </>
               ) : (
+                // プレビュー用の path がない時、つまりトリミング後画像か表示画像がない時、なのでnoImageを表示
                 <>
                   <label className={styles.container__file_button}>
                     <Input
@@ -249,7 +244,7 @@ export const ProfileEdit = () => {
                       }}
                     />
                   </label>
-                  <Text fontSize={'0.8rem'}>推奨サイズ: 横480px　縦480px</Text>
+                  <Text fontSize={'0.8rem'}>推奨サイズ: 横XXXpx　縦XXXpx</Text>
                 </>
               )}
               <CropModal
@@ -262,7 +257,7 @@ export const ProfileEdit = () => {
             </VStack>
           </Box>
         </FormControl>
-        <Box textAlign={'center'} className={styles.container__button}>
+        <Box className={styles.container__button}>
           <Button type={'submit'} isLoading={isLoading}>
             保存する
           </Button>
